@@ -59,6 +59,7 @@ npm run lint
 
 ## Configuración opcional
 
+- **Logo:** Coloca tu imagen del logo en `public/logo.png` para que aparezca en la navbar. Si no existe, se muestra el texto "IDE · Impulso Digital Estudio" con la paleta del logo (azul profundo + menta). La paleta del sitio está basada en el logo: `ide-blue` y `ide-mint` en Tailwind.
 - **WhatsApp:** Edita el número y mensaje por defecto en `components/WhatsAppButton.tsx` (constantes `WHATSAPP_NUMBER` y `DEFAULT_MESSAGE`). El número actual es un placeholder: `+52 55 0000 0000`.
 - **URL del sitio:** Para SEO (canonical, sitemap, OpenGraph) define `NEXT_PUBLIC_SITE_URL` en `.env.local`, por ejemplo: `NEXT_PUBLIC_SITE_URL=https://tudominio.com`
 - **Formulario de contacto:** La validación es solo en cliente y muestra “Mensaje enviado”. Para enviar a un backend o servicio (Resend, Formspree, etc.), integra la llamada en `components/Contact.tsx` dentro de `handleSubmit`.

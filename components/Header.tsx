@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppButton } from "./WhatsAppButton";
@@ -16,25 +17,42 @@ const navItems = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   return (
     <header
-      className="sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800 bg-white/95 dark:bg-neutral-950/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-neutral-950/80"
+      className="sticky top-0 z-50 w-full border-b border-ide-blue/10 dark:border-ide-mint/10 bg-white/95 dark:bg-ide-blue/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-ide-blue/90"
       role="banner"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2 text-ide-blue dark:text-white font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-ide-mint focus-visible:ring-offset-2 rounded"
+            className="flex items-center gap-3 font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-ide-mint focus-visible:ring-offset-2 rounded"
             aria-label="Impulso Digital Estudio - Inicio"
           >
-            <span className="text-xl tracking-tight font-bold text-ide-blue dark:text-white">
-              IDE
-            </span>
-            <span className="hidden sm:inline text-sm text-neutral-600 dark:text-neutral-400 font-normal">
-              Impulso Digital Estudio
-            </span>
+            {!logoError ? (
+              <Image
+                src="/logo.png"
+                alt="Impulso Digital Estudio"
+                width={140}
+                height={40}
+                className="h-9 w-auto object-contain dark:invert-0"
+                priority
+                onError={() => setLogoError(true)}
+                unoptimized
+              />
+            ) : (
+              <>
+                <span className="text-xl tracking-tight font-bold text-ide-blue dark:text-white">
+                  IDE
+                </span>
+                <span className="hidden sm:inline text-sm">
+                  <span className="text-ide-blue dark:text-white font-medium">Impulso Digital</span>
+                  <span className="text-ide-mint dark:text-ide-mint-light font-medium block -mt-0.5">Estudio</span>
+                </span>
+              </>
+            )}
           </Link>
 
           <nav
@@ -45,7 +63,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-ide-mint dark:hover:text-ide-mint-light rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+                className="px-3 py-2 text-sm font-medium text-ide-blue dark:text-neutral-200 hover:text-ide-mint dark:hover:text-ide-mint-light rounded-md hover:bg-ide-blue/5 dark:hover:bg-white/5 transition-colors"
               >
                 {item.label}
               </Link>
@@ -59,7 +77,7 @@ export function Header() {
             </span>
             <button
               type="button"
-              className="md:hidden p-2 rounded-lg text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              className="md:hidden p-2 rounded-lg text-ide-blue dark:text-neutral-200 hover:bg-ide-blue/5 dark:hover:bg-white/5"
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label="Abrir menú"
@@ -86,7 +104,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-4 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg"
+                className="px-4 py-3 text-ide-blue dark:text-neutral-200 hover:bg-ide-blue/5 dark:hover:bg-white/5 rounded-lg"
                 onClick={() => setOpen(false)}
               >
                 {item.label}

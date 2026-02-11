@@ -13,12 +13,14 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       colors: {
+        /* Paleta IDE: azul oscuro #002371 + azul claro #00AAE6 */
         ide: {
-          blue: "#0f2942",
-          "blue-light": "#1a3a5c",
-          mint: "#2dd4bf",
-          "mint-light": "#5eead4",
-          "mint-dark": "#14b8a6",
+          blue: "#002371",
+          "blue-light": "#003380",
+          "blue-bright": "#004099",
+          mint: "#00AAE6",
+          "mint-light": "#33bbe9",
+          "mint-dark": "#008fc7",
         },
       },
     },

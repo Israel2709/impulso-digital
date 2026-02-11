@@ -3,22 +3,23 @@
 @tailwind utilities;
 
 @layer base {
+  /* Paleta IDE: azul oscuro #002371 + azul claro #00AAE6 */
   :root {
     --background: 0 0% 98%;
-    --foreground: 222 47% 11%;
+    --foreground: 217 100% 22%;
     --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 174 72% 45%;
-    --accent-foreground: 0 0% 100%;
+    --muted-foreground: 217 30% 45%;
+    --accent: 197 100% 45%;
+    --accent-foreground: 217 100% 22%;
   }
 
   .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 174 72% 45%;
-    --accent-foreground: 0 0% 100%;
+    --background: 217 100% 8%;
+    --foreground: 210 30% 96%;
+    --muted: 217 50% 14%;
+    --muted-foreground: 215 20% 70%;
+    --accent: 197 100% 45%;
+    --accent-foreground: 217 100% 8%;
   }
 
   html {

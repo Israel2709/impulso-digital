@@ -57,6 +57,11 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: { canonical: siteUrl },
+  icons: {
+    icon: "/isotipo.png",
+    shortcut: "/isotipo.png",
+    apple: "/isotipo.png",
+  },
 };
 
 export default function RootLayout({
