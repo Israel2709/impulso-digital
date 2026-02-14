@@ -22,6 +22,12 @@ const config: Config = {
           "mint-light": "#33bbe9",
           "mint-dark": "#008fc7",
         },
+        /* Modo oscuro tipo Cursor/VS Code */
+        cursor: {
+          bg: "#1e1e1e",
+          surface: "#252526",
+          "surface-elevated": "#2d2d2d",
+        },
       },
     },
   },

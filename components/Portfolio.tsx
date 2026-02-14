@@ -63,9 +63,9 @@ export function Portfolio() {
           {items.map((item) => (
             <article
               key={item.title}
-              className="group rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              className="group rounded-2xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-cursor-surface-elevated overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="aspect-video bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+              <div className="aspect-video bg-neutral-100 dark:bg-cursor-bg flex items-center justify-center">
                 <span className="text-4xl font-bold text-neutral-300 dark:text-neutral-600 group-hover:text-ide-mint/50 transition-colors">
                   IDE
                 </span>
@@ -86,7 +86,7 @@ export function Portfolio() {
                   {item.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full bg-neutral-100 dark:bg-neutral-800 px-2.5 py-0.5 text-xs text-neutral-600 dark:text-neutral-400"
+                      className="rounded-full bg-neutral-100 dark:bg-cursor-surface px-2.5 py-0.5 text-xs text-neutral-600 dark:text-neutral-400"
                     >
                       {tag}
                     </span>

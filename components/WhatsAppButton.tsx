@@ -1,6 +1,6 @@
 "use client";
 
-const WHATSAPP_NUMBER = "5215500000000";
+const WHATSAPP_NUMBER = "5215520890688";
 const DEFAULT_MESSAGE = "Hola, me interesa conocer más sobre sus servicios.";
 
 type WhatsAppButtonProps = {

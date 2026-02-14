@@ -63,12 +63,12 @@ export function FAQ() {
           {faqs.map((faq) => (
             <div
               key={faq.id}
-              className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 overflow-hidden"
+              className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-cursor-surface-elevated overflow-hidden"
             >
               <dt>
                 <button
                   type="button"
-                  className="flex w-full items-center justify-between px-5 py-4 text-left font-medium text-ide-blue dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors"
+                  className="flex w-full items-center justify-between px-5 py-4 text-left font-medium text-ide-blue dark:text-white hover:bg-neutral-50 dark:hover:bg-cursor-bg transition-colors"
                   aria-expanded={openId === faq.id}
                   aria-controls={faq.id}
                   id={`${faq.id}-q`}

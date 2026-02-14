@@ -21,7 +21,7 @@ export function Services() {
   return (
     <section
       id="servicios"
-      className="py-16 sm:py-24 bg-neutral-50 dark:bg-neutral-900/30"
+      className="py-16 sm:py-24 bg-neutral-50 dark:bg-cursor-surface"
       aria-labelledby="services-heading"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -37,7 +37,7 @@ export function Services() {
           {services.map((service) => (
             <article
               key={service.title}
-              className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-2xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-cursor-surface-elevated p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow"
             >
               <h3 className="text-xl font-semibold text-ide-blue dark:text-white">
                 {service.title}

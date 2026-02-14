@@ -71,7 +71,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans min-h-screen flex flex-col`}>
+      <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-white dark:bg-cursor-bg`}>
         <ThemeProvider>
           <Header />
           <main className="flex-1">{children}</main>

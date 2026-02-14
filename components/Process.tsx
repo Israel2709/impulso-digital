@@ -25,7 +25,7 @@ export function Process() {
   return (
     <section
       id="proceso"
-      className="py-16 sm:py-24 bg-neutral-50 dark:bg-neutral-900/30"
+      className="py-16 sm:py-24 bg-neutral-50 dark:bg-cursor-surface"
       aria-labelledby="process-heading"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -42,7 +42,7 @@ export function Process() {
             <div key={item.step} className="relative">
               {index < steps.length - 1 && (
                 <span
-                  className="absolute left-8 top-16 hidden h-[2px] w-[calc(100%-4rem)] bg-neutral-200 dark:bg-neutral-700 lg:block"
+                  className="absolute left-8 top-16 hidden h-[2px] w-[calc(100%-4rem)] bg-neutral-200 dark:bg-white/10 lg:block"
                   aria-hidden
                 />
               )}

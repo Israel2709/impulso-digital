@@ -1,4 +1,6 @@
-const testimonials = [
+import { TestimonialCard, type TestimonialCardProps } from "./TestimonialCard";
+
+const testimonials: TestimonialCardProps[] = [
   {
     quote:
       "Necesitábamos una página sencilla para nuestro negocio. Nos la entregaron a tiempo y nos explican todo por WhatsApp.",
@@ -22,7 +24,7 @@ const testimonials = [
 export function Testimonials() {
   return (
     <section
-      className="py-16 sm:py-24 bg-neutral-50 dark:bg-neutral-900/30"
+      className="py-16 sm:py-24 bg-neutral-50 dark:bg-cursor-surface"
       aria-labelledby="testimonials-heading"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -35,19 +37,8 @@ export function Testimonials() {
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <blockquote
-              key={t.author}
-              className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 shadow-sm"
-            >
-              <p className="text-neutral-700 dark:text-neutral-300">&ldquo;{t.quote}&rdquo;</p>
-              <footer className="mt-4">
-                <cite className="not-italic font-medium text-ide-blue dark:text-white">
-                  {t.author}
-                </cite>
-                <span className="block text-sm text-neutral-500 dark:text-neutral-500">{t.role}</span>
-              </footer>
-            </blockquote>
+          {testimonials.map((t, index) => (
+            <TestimonialCard key={index} {...t} />
           ))}
         </div>
       </div>

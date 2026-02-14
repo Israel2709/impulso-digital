@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useTheme } from "@/lib/theme";
 import { ThemeToggle } from "./ThemeToggle";
 import { WhatsAppButton } from "./WhatsAppButton";
 
@@ -18,10 +19,12 @@ const navItems = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const { theme } = useTheme();
+  const logoSrc = theme === "dark" ? "/logo-dm.png" : "/logo.png";
 
   return (
     <header
-      className="sticky top-0 z-50 w-full border-b border-ide-blue/10 dark:border-ide-mint/10 bg-white/95 dark:bg-ide-blue/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-ide-blue/90"
+      className="sticky top-0 z-50 w-full border-b border-ide-blue/10 dark:border-white/10 bg-white/95 dark:bg-cursor-surface backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-cursor-surface"
       role="banner"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -33,11 +36,11 @@ export function Header() {
           >
             {!logoError ? (
               <Image
-                src="/logo.png"
+                src={logoSrc}
                 alt="Impulso Digital Estudio"
                 width={140}
                 height={40}
-                className="h-9 w-auto object-contain dark:invert-0"
+                className="h-9 w-auto object-contain"
                 priority
                 onError={() => setLogoError(true)}
                 unoptimized

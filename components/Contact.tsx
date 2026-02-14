@@ -1,13 +1,20 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, useEffect, FormEvent } from "react";
 import { WhatsAppButton } from "./WhatsAppButton";
 
 const HORARIOS = "Lunes a viernes, 9:00 - 18:00 (hora centro de México)";
+const MIN_SECONDS_BEFORE_SUBMIT = 4;
 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const formMountedAt = useRef<number>(0);
+
+  useEffect(() => {
+    formMountedAt.current = Date.now();
+  }, []);
 
   function validate(data: FormData): Record<string, string> {
     const err: Record<string, string> = {};
@@ -26,7 +33,7 @@ export function Contact() {
     return err;
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -35,19 +42,56 @@ export function Contact() {
 
     if (Object.keys(err).length > 0) return;
 
-    setStatus("sending");
-
-    // Placeholder: simular envío. Aquí luego: POST a tu API o servicio de formularios.
-    setTimeout(() => {
+    const honeypot = (data.get("sitio_web") as string)?.trim();
+    if (honeypot) {
       setStatus("sent");
       form.reset();
-    }, 800);
+      return;
+    }
+
+    const elapsed = (Date.now() - formMountedAt.current) / 1000;
+    if (elapsed < MIN_SECONDS_BEFORE_SUBMIT) {
+      setErrorMessage("Espera un momento e intenta de nuevo.");
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sending");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: data.get("nombre"),
+          negocio: data.get("negocio"),
+          whatsapp: data.get("whatsapp"),
+          email: data.get("email"),
+          mensaje: data.get("mensaje"),
+          sitio_web: data.get("sitio_web"),
+        }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        setErrorMessage((json as { error?: string }).error ?? "No se pudo enviar. Intenta de nuevo o escríbenos por WhatsApp.");
+        setStatus("error");
+        return;
+      }
+      setStatus("sent");
+      form.reset();
+    } catch {
+      setErrorMessage("Error de conexión. Intenta de nuevo o escríbenos por WhatsApp.");
+      setStatus("error");
+    }
   }
 
   return (
     <section
       id="contacto"
-      className="py-16 sm:py-24 bg-neutral-50 dark:bg-neutral-900/30"
+      className="py-16 sm:py-24 bg-neutral-50 dark:bg-cursor-surface"
       aria-labelledby="contact-heading"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -69,8 +113,22 @@ export function Contact() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6 sm:p-8 shadow-sm">
+          <div className="rounded-2xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-cursor-surface-elevated p-6 sm:p-8 shadow-sm">
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
+              {/* Honeypot: no debe rellenarse. Los bots suelen rellenar todos los campos. */}
+              <div
+                className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden"
+                aria-hidden="true"
+              >
+                <label htmlFor="contact-sitio-web">Sitio web</label>
+                <input
+                  id="contact-sitio-web"
+                  name="sitio_web"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               <div>
                 <label htmlFor="contact-nombre" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Nombre *
@@ -80,7 +138,7 @@ export function Contact() {
                   name="nombre"
                   type="text"
                   autoComplete="name"
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
+                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-white/10 bg-white dark:bg-cursor-bg px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
                   placeholder="Tu nombre"
                   aria-invalid={!!errors.nombre}
                   aria-describedby={errors.nombre ? "contact-nombre-error" : undefined}
@@ -99,7 +157,7 @@ export function Contact() {
                   id="contact-negocio"
                   name="negocio"
                   type="text"
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
+                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-white/10 bg-white dark:bg-cursor-bg px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
                   placeholder="Ej. Mi negocio S.A."
                   aria-invalid={!!errors.negocio}
                   aria-describedby={errors.negocio ? "contact-negocio-error" : undefined}
@@ -119,7 +177,7 @@ export function Contact() {
                   name="whatsapp"
                   type="tel"
                   autoComplete="tel"
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
+                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-white/10 bg-white dark:bg-cursor-bg px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
                   placeholder="+52 55 1234 5678"
                   aria-invalid={!!errors.whatsapp}
                   aria-describedby={errors.whatsapp ? "contact-whatsapp-error" : undefined}
@@ -139,7 +197,7 @@ export function Contact() {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
+                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-white/10 bg-white dark:bg-cursor-bg px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none"
                   placeholder="tu@correo.com"
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? "contact-email-error" : undefined}
@@ -158,7 +216,7 @@ export function Contact() {
                   id="contact-mensaje"
                   name="mensaje"
                   rows={4}
-                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none resize-y"
+                  className="mt-1 block w-full rounded-lg border border-neutral-300 dark:border-white/10 bg-white dark:bg-cursor-bg px-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-500 focus:border-ide-mint focus:ring-2 focus:ring-ide-mint/20 focus:outline-none resize-y"
                   placeholder="Cuéntanos qué necesitas..."
                   aria-invalid={!!errors.mensaje}
                   aria-describedby={errors.mensaje ? "contact-mensaje-error" : undefined}
@@ -176,7 +234,7 @@ export function Contact() {
               )}
               {status === "error" && (
                 <p className="rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 p-3 text-sm" role="alert">
-                  No se pudo enviar. Intenta de nuevo o escríbenos por WhatsApp.
+                  {errorMessage}
                 </p>
               )}
               <button

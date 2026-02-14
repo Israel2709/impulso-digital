@@ -14,7 +14,7 @@ const legalLinks = [
 export function Footer() {
   return (
     <footer
-      className="border-t border-ide-blue/10 dark:border-ide-mint/10 bg-ide-blue/5 dark:bg-ide-blue/20"
+      className="border-t border-ide-blue/10 dark:border-white/10 bg-ide-blue/5 dark:bg-cursor-surface"
       role="contentinfo"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
@@ -65,7 +65,7 @@ export function Footer() {
             </p>
           </div>
         </div>
-        <div className="mt-10 pt-8 border-t border-ide-blue/10 dark:border-ide-mint/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-10 pt-8 border-t border-ide-blue/10 dark:border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-ide-blue/70 dark:text-neutral-500">
             © {new Date().getFullYear()} Impulso Digital Estudio. Todos los derechos reservados.
           </p>
