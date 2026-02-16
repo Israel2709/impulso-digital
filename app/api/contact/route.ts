@@ -22,7 +22,7 @@ function isRateLimited(ip: string): boolean {
   rateLimitMap.set(ip, timestamps);
   if (rateLimitMap.size > 10000) {
     const oldest = Math.min(...Array.from(rateLimitMap.values()).flat());
-    for (const [key, ts] of rateLimitMap.entries()) {
+    for (const [key, ts] of Array.from(rateLimitMap.entries())) {
       if (ts.some((t) => t === oldest)) {
         rateLimitMap.delete(key);
         break;
