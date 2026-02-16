@@ -1,28 +1,47 @@
-import Link from "next/link";
-import { TestimonialCard, type TestimonialCardProps } from "./TestimonialCard";
+"use client";
 
-const testimonials: TestimonialCardProps[] = [
-  {
-    quote:
-      "Necesitábamos una página sencilla para nuestro negocio. Nos la entregaron a tiempo y nos explican todo por WhatsApp.",
-    author: "Cliente placeholder",
-    role: "Negocio local",
-  },
-  {
-    quote:
-      "Buen trato y respuesta rápida. El sitio se ve bien en el celular y nos sirve para que nos contacten.",
-    author: "Cliente placeholder",
-    role: "Negocio local",
-  },
-  {
-    quote:
-      "Contratamos el paquete con soporte y nos han ayudado a actualizar horarios y fotos sin complicaciones.",
-    author: "Cliente placeholder",
-    role: "Negocio local",
-  },
-];
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { TestimonialCard } from "./TestimonialCard";
+import { getOpinions, type Opinion } from "@/lib/firebase";
 
 export function Testimonials() {
+  const [opinions, setOpinions] = useState<Opinion[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getOpinions()
+      .then(setOpinions)
+      .catch(() => setOpinions([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return null;
+
+  if (opinions.length === 0) {
+    return (
+      <section
+        className="py-16 sm:py-24 bg-neutral-50 dark:bg-cursor-surface"
+        aria-labelledby="testimonials-cta-heading"
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 id="testimonials-cta-heading" className="sr-only">
+            Dejar opinión
+          </h2>
+          <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-6">
+            ¿Trabajaste con nosotros? Deja tu opinión y podría publicarse en la web.
+          </p>
+          <Link
+            href="/dejar-opinion"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-ide-mint px-4 py-2.5 font-medium text-ide-mint dark:text-ide-mint-light hover:bg-ide-mint hover:text-ide-blue dark:hover:bg-ide-mint dark:hover:text-ide-blue transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ide-mint focus-visible:ring-offset-2"
+          >
+            Dejar mi opinión
+          </Link>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       className="py-16 sm:py-24 bg-neutral-50 dark:bg-cursor-surface"
@@ -38,17 +57,14 @@ export function Testimonials() {
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-3">
-          {testimonials.map((t, index) => (
-            <TestimonialCard key={index} {...t} />
+          {opinions.map((opinion, index) => (
+            <TestimonialCard
+              key={`${opinion.createdAt}-${index}`}
+              quote={opinion.quote}
+              author={opinion.author}
+              role={opinion.role}
+            />
           ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Link
-            href="/dejar-opinion"
-            className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-ide-mint px-4 py-2.5 font-medium text-ide-mint dark:text-ide-mint-light hover:bg-ide-mint hover:text-ide-blue dark:hover:bg-ide-mint dark:hover:text-ide-blue transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ide-mint focus-visible:ring-offset-2"
-          >
-            Dejar mi opinión
-          </Link>
         </div>
       </div>
     </section>
