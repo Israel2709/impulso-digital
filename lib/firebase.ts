@@ -1,19 +1,24 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getDatabase, ref, push, type DatabaseReference } from "firebase/database";
 
-const databaseURL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL;
+function stripEnv(value: string | undefined): string | undefined {
+  if (value == null) return undefined;
+  return value.replace(/^["'\s]+|["'\s]+$/g, "").trim() || undefined;
+}
+
+const databaseURL = stripEnv(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL);
 let db: ReturnType<typeof getDatabase> | null = null;
 
 if (databaseURL && typeof window !== "undefined") {
   const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    apiKey: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_API_KEY),
+    authDomain: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN),
     databaseURL,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+    projectId: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID),
+    storageBucket: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET),
+    messagingSenderId: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID),
+    appId: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_APP_ID),
+    measurementId: stripEnv(process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID),
   };
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   db = app ? getDatabase(app as ReturnType<typeof initializeApp>) : null;
