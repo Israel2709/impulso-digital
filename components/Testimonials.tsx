@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TestimonialCard, type TestimonialCardProps } from "./TestimonialCard";
 
 const testimonials: TestimonialCardProps[] = [
@@ -40,6 +41,14 @@ export function Testimonials() {
           {testimonials.map((t, index) => (
             <TestimonialCard key={index} {...t} />
           ))}
+        </div>
+        <div className="mt-10 text-center">
+          <Link
+            href="/dejar-opinion"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-ide-mint px-4 py-2.5 font-medium text-ide-mint dark:text-ide-mint-light hover:bg-ide-mint hover:text-ide-blue dark:hover:bg-ide-mint dark:hover:text-ide-blue transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ide-mint focus-visible:ring-offset-2"
+          >
+            Dejar mi opinión
+          </Link>
         </div>
       </div>
     </section>

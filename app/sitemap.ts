@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/paquetes`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/contacto`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/aviso-de-privacidad`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
+    { url: `${baseUrl}/dejar-opinion`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const giroPages: MetadataRoute.Sitemap = giros.map((giro) => ({

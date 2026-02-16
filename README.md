@@ -17,6 +17,7 @@ Landing profesional para **Impulso Digital Estudio** (IDE): desarrollo de sitios
 - **`/contacto`** — Formulario + CTA WhatsApp + horarios
 - **`/sitios-para/[giro]`** — Plantilla dinámica por giro (veterinarias, consultorios, talleres, abogados, ropa)
 - **`/aviso-de-privacidad`** — Aviso de privacidad
+- **`/dejar-opinion`** — Formulario para dejar opinión (guarda en Firebase Realtime Database)
 
 ## Cómo instalar, correr y hacer build
 
@@ -63,6 +64,7 @@ npm run lint
 - **WhatsApp:** El número de contacto para cotizaciones y botones es +52 1 55 2089 0688 (definido en `components/WhatsAppButton.tsx` como `WHATSAPP_NUMBER`). Puedes editar el mensaje por defecto en `DEFAULT_MESSAGE` si lo necesitas.
 - **URL del sitio:** Para SEO (canonical, sitemap, OpenGraph) define `NEXT_PUBLIC_SITE_URL` en `.env.local`, por ejemplo: `NEXT_PUBLIC_SITE_URL=https://tudominio.com`
 - **Formulario de contacto:** Los envíos llegan a **ventasimpulsode@gmail.com** vía Nodemailer (Gmail SMTP). En `.env.local` define `GMAIL_USER=ventasimpulsode@gmail.com` y `GMAIL_APP_PASSWORD` con una [contraseña de aplicación](https://support.google.com/accounts/answer/185833) de esa cuenta (no la contraseña normal).
+- **Opiniones (Firebase):** El formulario "Dejar opinión" (`/dejar-opinion`) guarda en **Firebase Realtime Database**. Crea un proyecto en [Firebase Console](https://console.firebase.google.com), activa Realtime Database y añade en `.env.local` las variables `NEXT_PUBLIC_FIREBASE_*` (ver `.env.example`). Configura las [reglas de seguridad](https://firebase.google.com/docs/database/security) de la base de datos (por ejemplo, permitir solo escritura autenticada o desde tu dominio).
 - **Analytics:** En `app/layout.tsx` hay un bloque comentado para Google Analytics; descomenta y sustituye el ID cuando lo integres.
 
 ## Componentes principales
